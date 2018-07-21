@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="baidu-site-verification" content="rToeqAZsRs"/>
+    <meta property="wb:webmaster" content="e6491d474f7018fe"/>
+    <!-- 判断浏览器版本 -->
+    <script>
+        (function (window) {
+            var agent = window.navigator.userAgent;
+            var m = agent.match(/msie\s*([0-9]*)/i);
+            if (window.location.href.indexOf('browser.html') < 0 && m != null) {
+                var version = parseInt(m[1]);
+                if (version < 8) {
+                    window.location.href = "/browser.html";
+                }
+            }
+        })(window);
+    </script>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta property="wb:webmaster" content="e6491d474f7018fe"/>
+    <meta charset="UTF-8">
+    <{header app=topc}>
+</head>
+<style>
+
+    /*在线客服聊天盒子*/
+    .socketbox {
+        z-index: 5;
+        width: 732px;
+        height: 450px;
+
+        position: fixed;
+        top: 220px;
+        right: 29%;
+        box-shadow: 5px 5px 30px #666;;
+    }
+
+    .informationsx {
+        width: 201px;
+        height: 450px;
+        margin: 0 auto;
+        position: fixed;
+        top: 220px;
+
+        background-color: #ff0675;
+        z-index: 5;
+    }
+
+    .informationsx .yhxxx {
+        width: 100%;
+        height: 90px;
+        margin-bottom: 0px;
+
+    }
+
+    .informationsx .beijtbox {
+        width: 100%;
+        height: 360px;
+    }
+
+    .informationsx .beijtbox img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .informationsx .yhxxx img {
+        margin-left: 10px;
+        margin-top: 20px;
+        float: left;
+        height: 50px;
+        width: 50px;
+    }
+
+    .informationsx .yhxxx span {
+        display: inline-block;
+        line-height: 90px;
+        margin-left: 5px;
+        font-size: 16px;
+        color: white;
+        width: 115px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .customerbox {
+        width: 550px;
+        height: 328px;
+        margin: 0 auto;
+        position: fixed;
+        top: 220px;
+        right: 28%;
+        /*overflow:auto;*/
+        background-color: #f0eff5;
+        border: 1px solid #ccc;
+        z-index: 5;
+    }
+
+    .customerbox .ltxix {
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+        border-bottom: 1px solid #ccc;
+        padding-left: 0px;
+    }
+
+    .customerbox .ltxix .zxandlx {
+        display: inline-block;
+        width: 40px;
+        height: 15px;
+        line-height: 15px;
+        font-size: 12px;
+        border-radius: 20px;
+        background: #ff0675;
+        text-align: center;
+        color: white;
+        margin-left: 5px;
+    }
+
+    .customerbox .ltxix img {
+        display: inline-block;
+        float: right;
+        margin-right: 20px;
+        margin-top: 15px;
+        width: 22px;
+    }
+
+    .customerbox .receivebox {
+        width: 100%;
+        height: 260px;
+        overflow: auto;
+        /*background-color: yellow;*/
+    }
+
+    .chatcontent {
+        width: 550px;
+        height: 130px;
+        margin: 0 auto;
+        position: fixed;
+        top: 540px;
+        right: 28%;
+        overflow: auto;
+        background-color: white;
+        z-index: 5;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+
+    }
+
+    .control {
+        width: 506px;
+        resize: none;
+        border: none;
+        outline: none;
+        line-height: 15px;
+        font-size: 15px;
+
+        overflow-y: hidden
+
+    }
+
+    .fsan {
+        width: 70px;
+        height: 25px;
+        line-height: 24px;
+        font-size: 13px;
+        float: right;
+        margin-right: 12px;
+        background-color: #ff0675;
+        color: white;
+        border: none;
+        outline: none;
+
+        border-radius: 20px;
+        /*margin-top: 5px;*/
+
+    }
+
+    /*用户输入内容*/
+    .currname {
+
+        margin-right: 10px;
+    }
+
+    .popname {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 0px;
+    }
+
+    .poptext {
+        font-size: 14px;
+        color: blue;
+        margin-bottom: 0px;
+    }
+
+    /*模态框*/
+    .real {
+        /*点击弹出模态框的图片*/
+        width: 80px;
+        margin-left: 6px;
+        margin-top: 5px;
+    }
+
+    #real:hover {
+        opacity: 0.6;
+    }
+
+    #mo {
+        display: none; /*隐藏*/
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        top: 0%;
+        left: 0%;
+        z-index: 9;
+        overflow: auto;
+    }
+
+    #moimg {
+        display: block;
+        margin: 60px auto;
+
+        max-width: 750px;
+    }
+
+    #caption {
+        text-align: center;
+        margin: 15px auto;
+        width: 60%;
+        max-height: 750px;
+        font-size: 20px;
+        color: #ccc;
+    }
+
+    .close {
+        font-size: 40px;
+        font-weight: bold;
+        position: absolute;
+        top: 20px;
+        right: 2%;
+        color: #f1f1f1;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        cursor: pointer;
+    }
+
+    @media only screen and(max-width: 750px ) {
+        #moimg {
+            width: 100%;
+        }
+    }
+
+    /*上传按钮图片样式*/
+    .wyl_zhongxin_t_l {
+        width: 45px;
+        z-index: 9;
+        position: relative;
+        margin-left: 10px;
+    }
+
+    .file_input {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        /* 这一行代码比较厉害 直接隐藏上传的按钮 */
+        opacity: 0;
+        position: absolute;
+    }
+
+    #tupia {
+        width: 60%;
+        height: 60%;
+        margin-top: 1px;
+    }
+
+    .wyl_zhongxin_t_l img {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .control {
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+
+
+</style>
+<body>
+
+<!--聊天最大盒子-->
+<div class="socketbox">
+
+    <!--用户头像 姓名盒子-->
+    <div class="informationsx">
+        <p class="yhxxx">
+            <img src="/themes/jy/images/khtx.png" style="  "/>
+            <span style=""><{$mobile}></span>
+        </p>
+        <div class="beijtbox">
+            <img src="/themes/jy/images/ltbeijt.png" alt="聊天背景图">
+        </div>
+
+    </div>
+
+
+    <!--接收盒子-->
+    <div class="customerbox">
+        <div class="ltxix">
+            <span style="margin-left: 28px;">锦艺搜布客服</span>
+            <span class="zxandlx">在线</span>
+            <img src="/themes/jy/images/gbann.png" alt="关闭按钮" class="djgnlt">
+        </div>
+        <div class="receivebox">
+        </div>
+    </div>
+
+    <!--用户输入的内容-->
+
+    <div class="chatcontent">
+        <div class="bigimg" style="background: #eee;">
+            <div class="wyl_zhongxin_t_l" id="wyl_zhongxin_t_l">
+                <input type="file" accept="image/*" class="file_input" id="file_input"/>
+                <div id="tupia">
+                    <img src="/themes/jy/images/pz.png" alt=""/>
+                </div>
+
+            </div>
+        </div>
+
+        <textarea onkeypress="getKey();" class="control" id="txtContent" autofocus rows="3" placeholder="请输入聊天内容"
+                  maxlength="200" required></textarea>
+
+        <button class="fsan">发送</button>
+    </div>
+
+    <!--模拟的图片-->
+
+    <!--图片模态框 -->
+    <div class="motai" id="mo">
+        <span class="close" id="close" onclick="xxgb(this)">×</span>
+        <img class="motaiimg" id="moimg">
+        <div id="caption"></div>
+    </div>
+</div>
+</body>
+<script>
+
+    /************即使通讯处理 start *******************/
+
+
+
+    $(function () {
+        //读取数据 内容  开始
+        var infoStr = localStorage.getItem('userInfo');
+        var keytel = '<{$mobile}>';
+        var onjstr = JSON.parse(infoStr);
+        console.log(onjstr);
+
+        if (!onjstr) {
+            var onjstr = {};
+            var o = [];
+            onjstr[keytel] = o;
+            var l = JSON.stringify(onjstr);
+            localStorage.setItem('userInfo', l);
+
+        } else if (!onjstr.hasOwnProperty(keytel)) {
+            onjstr[keytel] = [];
+            localStorage.setItem('userInfo', JSON.stringify(onjstr));
+        }
+        if (onjstr.hasOwnProperty(keytel)) {
+            for (var i in onjstr[keytel]) {
+                //判断显示头像信息
+                var msg = onjstr[keytel][i].content;
+                var msgAvatar = '';
+                if (onjstr[keytel][i].contentRec == 'self') {
+                    msgUame = '<{$mobile}>';
+                    msgAvatar = '/themes/jy/images/msgavatar.png';
+                    if (onjstr[keytel][i].resType === 'img') {
+                        msg = Sop(msg, 'white', 'black', 'white', '120px', msgAvatar, msgUame, '14px', '14px');
+                    } else if (onjstr[keytel][i].resType === 'audio') {
+
+                    } else {
+                        msg = Pop(msg, "#ff3892", "white", "#ff3892", "200px", msgAvatar, msgUame, "14px", "14px");
+                    }
+                    $(".receivebox").append(msg);
+                    //这个步骤是让内容一直在最底部显示
+                    var scrollHeight = $('.receivebox').prop("scrollHeight");
+                    $(".receivebox").scrollTop(scrollHeight, 300);
+
+                } else if (onjstr[keytel][i].contentRec == 'kf') {
+                    msgUame = '小布';
+                    msgAvatar = '/themes/jy/images/msgkf.png';
+                    // 判断信息内容是图片、语音或者文字
+                    if (onjstr[keytel][i].resType === 'img') {
+                        msg = Sop(msg, 'white', 'black', 'white', '120px', msgAvatar, msgUame, '14px', '14px');
+                    } else if (onjstr[keytel][i].resType === 'audio') {
+
+                    } else {
+                        msg = Pop(msg, "white", "black", "white", "200px", msgAvatar, msgUame, "14px", "14px");
+                    }
+                    $(".receivebox").append(msg);
+                    //这个步骤是让内容一直在最底部显示
+                    var scrollHeight = $('.receivebox').prop("scrollHeight");
+                    $(".receivebox").scrollTop(scrollHeight, 300);
+
+                } else {
+                    return false;
+                }
+
+            }
+        }
+
+
+    });
+//    结束
+
+    var data = {
+       // cid: '<{$key}>', //识别码
+        cid: '<{$mymobile}>', //识别码
+        type: 'web', //终端类型
+        resType: 'text'
+    };
+
+    var ws;
+    //定时器
+    var timeid = '';
+    connect();
+
+
+    //连接
+    function connect() {
+       // var url = 'ws://123.56.19.156:9501';
+        var url = 'ws://59.110.237.220:9501';
+        ws = new WebSocket(url);
+        ws.onopen = function (event) {
+
+            //发送连接的初始化数据
+            tmpData = data;
+
+            tmpData['event'] = 'connect';
+            tmpData = JSON.stringify(tmpData);
+            //连接后 接收的参数值 cid  type等
+
+            ws.send(tmpData);
+
+            //  $(".receivebox").text('');
+
+            //定时器保持连接
+            timeid = setInterval(function () {
+                //心跳保持数据
+                var keepData = {
+                    cid: 'keep_live', //识别码
+                    type: 'web', //请求终端的类型
+                    resType: 'text', //消息类型,默认(text 文本或者为空表示文本)
+                    event: 'keep_live',
+                    content: 'keep_live'
+                };
+
+                if (ws.readyState == 1) {
+                    ws.send(JSON.stringify(keepData));
+                }
+            }, 10000);
+        }
+
+        ws.onmessage = function (event) {
+            // 发送时 数据
+            var getData = event.data;
+            getData = JSON.parse(getData);
+            var msg = getData.content;
+            // 首次进入接收信息内容  获取的内容数据
+            console.log(getData);
+
+            // 存取信息 开始
+            if (getData.contentRec == 'self' || (getData.contentRec == 'kf' && getData.kfIsOnline == 2)) {
+                var userInfo = localStorage.getItem('userInfo');
+                var keytel = '<{$mobile}>';
+                console.log(keytel);
+                userInfo = JSON.parse(userInfo);
+                var keyval = userInfo[keytel];
+                keyval.push(getData);
+                userInfo[keytel] = keyval;
+                for (var i = 0; i < keyval.length; i++) {
+                    if (keyval.length >= 500) {
+
+                        keyval.splice(0, 1);
+                    }
+                }
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            }
+            if (getData.kfIsOnline == 1 && getData.resType == 'img') {
+                var userInfo = localStorage.getItem('userInfo');
+                var keytel = '<{$mobile}>';
+                userInfo = JSON.parse(userInfo);
+
+                var keyval = userInfo[keytel];
+                keyval.push(getData);
+                userInfo[keytel] = keyval;
+
+                for (var i = 0; i < keyval.length; i++) {
+                    if (keyval.length >= 500) {
+
+                        keyval.splice(0, 1);
+
+                    }
+                }
+                // 每次push 转换为二维数组  将值转换为字符串
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            }
+
+
+            if (getData.kfIsOnline == 1 && getData.resType == 'audio') {
+                var userInfo = localStorage.getItem('userInfo');
+                var keytel = '<{$mobile}>';
+                console.log(keytel);
+                userInfo = JSON.parse(userInfo);
+                getData.contentRec = "self";
+                var keyval = userInfo[keytel];
+                keyval.push(getData);
+                userInfo[keytel] = keyval;
+
+                for (var i = 0; i < keyval.length; i++) {
+                    if (keyval.length >= 500) {
+                        keyval.splice(0, 1);
+
+                    }
+                }
+                // 每次push 转换为二维数组  将值转换为字符串
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            }
+
+
+            if (getData.contentRec == 'kf' && getData.resType == 'img') {
+                var userInfo = localStorage.getItem('userInfo');
+                var keytel = '<{$mobile}>';
+                userInfo = JSON.parse(userInfo);
+                var keyval = userInfo[keytel];
+                keyval.push(getData);
+                userInfo[keytel] = keyval;
+
+                for (var i = 0; i < keyval.length; i++) {
+                    if (keyval.length >= 500) {
+                        keyval.splice(0, 1);
+                    }
+                }
+                // 每次push 转换为二维数组  将值转换为字符串
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            }
+
+            if (getData.contentRec == 'kf' && getData.resType == 'audio') {
+                var userInfo = localStorage.getItem('userInfo');
+                var keytel = '<{$mobile}>';
+                userInfo = JSON.parse(userInfo);
+                var keyval = userInfo[keytel];
+                keyval.push(getData);
+                userInfo[keytel] = keyval;
+
+                for (var i = 0; i < keyval.length; i++) {
+                    if (keyval.length >= 500) {
+                        keyval.splice(0, 1);
+                    }
+                }
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            }
+            // 存取信息 开始结束
+
+
+            //判断显示头像信息
+            var msgUame = '<{$mobile}>';
+            var msgAvatar = '';
+            if (getData.contentRec == 'self' && getData.resType !== 'img' && getData.resType !== 'audio') {
+                msgUame = '<{$mobile}>';
+                msgAvatar = '/themes/jy/images/msgavatar.png';
+                msg = Pop(msg, "#ff3892", "white", "#ff3892", "200px", msgAvatar, msgUame, "14px", "14px");
+            } else if (getData.contentRec == 'kf') {
+                msgUame = '小布';
+                msgAvatar = '/themes/jy/images/msgkf.png';
+
+                //判断信息内容是图片、语音或者文字
+                if (getData.resType === 'img') {
+                    msg = Sop(msg, 'white', 'black', 'white', '120px', msgAvatar, msgUame, '14px', '14px');
+                } else if (getData.resType === 'audio') {
+
+                } else {
+                    msg = Pop(msg, "white", "black", "white", "200px", msgAvatar, msgUame, "14px", "14px");
+                }
+
+            } else {
+                return false;
+            }
+
+
+            if (getData.kfIsOnline === 1) {
+                $('.zxandlx').css('background-color', '#666666');
+                $('.zxandlx').text('离线');
+                $(".receivebox").append(msg);
+            } else {
+                $('.zxandlx').css('background-color', '#ff0675');
+                $('.zxandlx').text('在线');
+                $(".receivebox").append(msg);
+            }
+
+            //这个步骤是让内容一直在最底部显示
+            var scrollHeight = $('.receivebox').prop("scrollHeight");
+            $(".receivebox").scrollTop(scrollHeight, 200);
+        }
+
+        ws.onclose = function (event) {
+            // console.log('我掉线了');
+            window.clearInterval(timeid);
+            var r = confirm("您已掉线，是否重新连接");
+            if (r == true) {
+                window.location.href = location.href;
+            } else {
+                return false;
+            }
+        }
+
+        ws.onerror = function (event) {
+            //console.log(event);
+        }
+    }
+
+    // 发送数据(只包含文本信息)
+    function sendMsg() {
+        tmpData = data;
+        tmpData['content'] = $("#txtContent").val();
+
+        if (!tmpData['content'] || tmpData['content'] == "\n" || !valiadSpace(tmpData['content'])) {
+            return false;
+        }
+
+        if (tmpData['content'].length > 0 && tmpData['content'].length <= 200) {
+            tmpData['event'] = 'send';
+            tmpData['resType'] = 'text';
+            tmpData = JSON.stringify(tmpData);
+            ws.send(tmpData);
+            $("#txtContent").val('');
+            $("#txtContent").innerText = '';
+        }
+    }
+
+    //断开连接
+    function closeWs() {
+        ws.close();
+    }
+
+    //监控输入框中的回车点击事件
+    function getKey() {
+        var event = window.event || arguments.callee.caller.arguments[0];
+        var count = getContentCount(event, 'txtContent');
+        //网页内按下回车触发
+        if (event.keyCode == 13 && count === 1) {
+            sendMsg();
+
+            //阻止“点击回车”事件发生
+            event.cancelBubble = true;
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    //清屏
+    function clearView() {
+        $(".receivebox").text("");
+    }
+
+    //验证发送的字符数量
+    function getContentCount(event, obj) {
+        var str = $("#" + obj).val();
+        if (event.keyCode == 13) {
+            if (!valiadSpace(str)) {
+                alert('请输入正确信息');
+                //阻止“点击回车”事件发生(注意只控制“回车”键的，不要影响到其他键)
+                if (event.keyCode == 13) {
+                    event.cancelBubble = true;
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                $("#txtContent").val("");
+                return false;
+            }
+        }
+
+        if (str === '\n' || !str) {
+            //阻止“点击回车”事件发生(注意只控制“回车”键的，不要影响到其他键)
+            if (event.keyCode == 13) {
+                event.cancelBubble = true;
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            $("#txtContent").val("");
+            return false;
+        }
+
+        if (str.length > 0 && str.length <= 200) {
+            return 1;
+        } else if (str.length > 200) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
+    //检测输入的字符串是否全部为空格
+    function valiadSpace(str) {
+        //禁止字符串全部为空格的提交
+        if (str.length >= 1) {
+            var c = 0;
+            for (var i = 0; i < str.length; i++) {
+                if (str.charAt(i) == ' ') {
+                    c++;
+                }
+            }
+
+            if (c == str.length) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    //定义普通文本消息样式
+    // inval 获取用户输入的内容值
+    // bcolor 聊天背景颜色 客服为白底黑字  用户为红底白字
+    // zcolor 字体颜色
+    // sjcolor 箭头三角颜色
+    // srwidth  聊天内容背景宽度
+    // imgurl 用户头像  客户头像
+    // username  用户 客户名字
+    // msize  用户名字大小
+    // textsize 输入 回复文字大小
+    function Pop(inval, bcolor, zcolor, sjcolor, srwidth, imgurl, username, msize, textsize) {
+        var htmls = '<div class="currname" style="margin-top:20px;margin-left:10px;">' +
+            ' <p style="margin-top:5px;">' +
+            '<img src=' + imgurl + ' height="35px" width="35px" style="float:left;"/>' +
+            '<span style=" line-height:20px;font-size:' + msize + ';margin-left: 5px;">' + username + '</span>' +
+            '<p id="triangle-lefts" style="width: 36px; height: 0; border-top: 10px solid transparent; border-right: 10px solid ' + sjcolor + '; border-bottom: 10px solid transparent; margin-top: 10px;">' +
+            '</p>' +
+            '<p  style="background:' + bcolor + ';color:' + zcolor + ';width:' + srwidth + ';margin-left: 46px;margin-top: -34px;border-radius: 5px;padding: 10px;word-wrap: break-word;font-size:' + textsize + ';">' + inval + '</p>' +
+            '</p>' +
+            '</div>';
+
+        return htmls;
+    }
+
+    /************即使通讯处理 end *******************/
+
+    /************上传图片 start *******************/
+
+    //这里处理的就是图片
+    $("#file_input").on("change", function () {
+
+        var transmiss = '';
+
+        //需要先判断"file"控件是否选择了文件，如果未选择文件则直接 "return false"
+        var filePath = document.getElementById("file_input").value;
+        //发送base64格式的图片
+        var file = document.getElementById("file_input").files[0];
+
+        if (filePath) {
+            if (file.size > 2097152) {
+                alert('上传图片最大不能超过2M');
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        if (!/image\/\w+/.test(file.type)) {
+            alert("请上传图片！");
+            return false;
+        }
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+
+            //使用ajax请求发送数据
+            var img = {
+                cid: '<{$key}>',
+                from: 'web',
+                data: this.result
+            };
+
+            $.post("<{url action=topc_ctl_member@uploadData}>", img,
+                function (rs) {
+                console.log(rs);
+                    if (rs.code == 1) {
+                        transmiss = rs.data.url;
+
+                        misscurr = Cop(transmiss, 'white', 'black', 'white', '120px', '/themes/jy/images/msgavatar.png', '<{$mobile}>', '14px', '14px');
+                        $(".receivebox").append(misscurr);
+                        //这个步骤是让内容一直在最底部显示
+                        var scrollHeight = $('.receivebox').prop("scrollHeight");
+                        $(".receivebox").scrollTop(scrollHeight, 300);
+
+                        //发送图片地址给客服端
+                        if (transmiss) {
+                            var imgDate = data;
+                            console.log(imgDate);
+                            imgDate['event'] = 'send';
+                            imgDate['resType'] = 'img';
+                            imgDate['content'] = transmiss;
+                            imgDate = JSON.stringify(imgDate);
+                            ws.send(imgDate);
+                        }
+
+                    } else {
+                        alert(rs.msg);
+                    }
+
+                    //一段时间后删除菊花
+                    setTimeout(function () {
+                        $(".loading").remove();
+                    }, 2000);
+
+
+                }, "json");
+        };
+
+    });
+
+    //定义用户发送图片消息样式box
+    function Cop(transmiss, bcolor, zcolor, sjcolor, srwidth, imgurl, username, msize, textsize) {
+
+        // bcolor 聊天背景颜色 客服为白底黑字  用户为红底白字
+        // zcolor 字体颜色
+        // sjcolor 箭头三角颜色
+        // srwidth  聊天内容背景宽度
+        // imgurl 用户头像  客户头像
+        // username  用户 客户名字
+        // msize  用户名字大小
+
+        var imgpop = '<div class="currname" style="margin-top:20px;margin-left:10px;">' +
+            ' <p style="margin-top:5px;">' +
+            '<img src=' + imgurl + ' height="35px" width="35px" style="float:left;"/>' +
+            '<span style=" line-height:20px;font-size:' + msize + ';margin-left: 5px;">' + username + '</span>' +
+            '<p id="triangle-lefts" style="width: 36px; height: 0; border-top: 10px solid transparent; border-right: 10px solid ' + sjcolor + '; border-bottom: 10px solid transparent; margin-top: 10px;">' +
+            '</p>' +
+            '<p  style="background:' + bcolor + ';color:' + zcolor + ';width:' + srwidth + ';margin-left: 46px;margin-top: -34px;border-radius: 5px;padding: 10px;word-wrap: break-word;font-size:' + textsize + ';">' +
+            '<img src="/themes/jy/images/loading.gif"  class="loading" style="width: 15px;height: 15px;float: right;margin-top: 18%;"  >' +
+            '<img src=' + transmiss + '  class="real"  onclick="clearNo(this)">' +
+            '</p>' +
+
+            '</p>' +
+            '</div>';
+        return imgpop;
+    }
+
+    //显示接受的图片信息的box
+    function Sop(transmiss, bcolor, zcolor, sjcolor, srwidth, imgurl, username, msize, textsize) {
+
+        // bcolor 聊天背景颜色 客服为白底黑字  用户为红底白字
+        // zcolor 字体颜色
+        // sjcolor 箭头三角颜色
+        // srwidth  聊天内容背景宽度
+        // imgurl 用户头像  客户头像
+        // username  用户 客户名字
+        // msize  用户名字大小
+
+        var imgpop = '<div class="currname" style="margin-top:20px;margin-left:10px;">' +
+            ' <p style="margin-top:5px;">' +
+            '<img src=' + imgurl + ' height="35px" width="35px" style="float:left;"/>' +
+            '<span style=" line-height:20px;font-size:' + msize + ';margin-left: 5px;">' + username + '</span>' +
+            '<p id="triangle-lefts" style="width: 36px; height: 0; border-top: 10px solid transparent; border-right: 10px solid ' + sjcolor + '; border-bottom: 10px solid transparent; margin-top: 10px;">' +
+            '</p>' +
+            '<p  style="background:' + bcolor + ';color:' + zcolor + ';width:' + srwidth + ';margin-left: 46px;margin-top: -34px;border-radius: 5px;padding: 10px;word-wrap: break-word;font-size:' + textsize + ';">' +
+            '<img src=' + transmiss + '  class="real"  onclick="clearNo(this)">' +
+            '</p>' +
+
+            '</p>' +
+            '</div>';
+        return imgpop;
+    }
+
+    // 点击显示模态框
+    function clearNo(i) {
+        var motai = document.getElementById('mo');
+        var moimg = document.getElementById("moimg");
+        motai.style.display = "block";
+        moimg.src = i.src;
+
+    }
+
+    function xxgb() {
+        $("#mo").css("display", "none");
+    }
+
+
+    //点击关闭 关闭,断开连接
+    $(".djgnlt").click(function () {
+        $(".socketbox").css("display", "none");
+        closeWs();
+        window.close();
+    })
+
+    //发送按钮
+    $(".fsan").click(function () {
+        var event = window.event || arguments.callee.caller.arguments[0];
+        var count = getContentCount(event, 'txtContent');
+        var str = $("#txtContent").val();
+        if (!valiadSpace(str)) {
+            alert('请输入正确信息');
+            $("#txtContent").val("");
+            $("#txtContent").focus();
+            return false;
+        }
+
+        if (count === 1) {
+            sendMsg();
+
+
+        } else if (count === 2) {
+            alert('咨询内容不能超过200个字符');
+        } else {
+            alert('请输入咨询内容');
+        }
+    });
+
+    /************上传图片 end ********************/
+
+</script>
+</html>

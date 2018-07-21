@@ -1,0 +1,84 @@
+<div class="mui-input-row" id='currname'>
+                    <label style='width: 55%;'>店主身份证正面照<span style='color: red;'>*</span></label>
+                    <div class="wyl_zhongxin_t_l" id="wyl_zhongxin_t_l">
+                        <input type="hidden" name="shop_info[shopuser_identity_img_z]" id="screenshot1" value=" " />
+                        <input type="file" accept="image/*" class="file_input" id="file_input1" />
+                        <div id="tupia">
+                            <img src="./images/phonea.png" alt="" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+js
+
+  // 引入 点击 上传图片
+        $("#file_input2").on("change", function(file) {
+            //改变this 指向
+            var that = this;
+            //获取显示图片的div元素
+            var yia1 = document.getElementById("tupian");
+            //获取显示图片的input元素
+            var input1 = document.getElementById("file_input2");
+            //调用方法
+            readFile();
+            function readFile() {
+                //获取到 file对象
+                var file = $(that)[0].files[0] //获取file对象
+                //console.log(file.name);
+                // 判断file的类型是不是图片类型。
+                if(!/image\/\w+/.test(file.type)) {
+                    alert("文件必须为图片！");
+                    return false;
+                }
+                lrz(file)
+                    .then(function (rst) {
+                        // 处理成功会执行
+                        console.log(rst);
+                        yia1.innerHTML = '<img src="' + rst.base64 + '" alt=""/>';
+                        $.ajax({
+                            // 通过type 获取请求的方式
+                            type: "POST",
+                            // url 获取到我们 的链接
+                            url: "/index.php/topapi",
+                            // 回调我们的接口
+                            data: {
+                                format: 'json',
+                                v: 'v1',
+                                //名称
+                                method: 'image.appupload',
+                                accessToken: accessToken,
+                                upload_type: 'base64',
+                                image: rst.base64.substr(rst.base64.indexOf(',') + 1),
+                                image_input_title: '1.jpg',
+                                form: 'appseller',
+                                image_type: 'shop_apply',
+                                callback: "callback"
+                            },
+                            // 获取的方式 为json
+                            dataType: "json",
+                            success: function(info) {
+                                if(info.errorcode != 0) {
+                                    // 出错
+                                    mui.toast(info.msg);
+                                } else {
+                                    // 进行判断 书别我们的逻辑
+                                    var banner = info.data.url;
+                                    $("#screenshot2").val(banner);
+                                }
+                            },
+                            error: function(res) {
+                                mui.toast("网络出错,请重试");
+                            },
+                        })
+                    })
+                    .catch(function (err) {
+                        // 处理失败会执行
+                    })
+                    .always(function () {
+                        // 不管是成功失败，都会执行
+                    });
+            }
+        });
